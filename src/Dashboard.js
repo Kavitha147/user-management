@@ -11,6 +11,9 @@ const Container = styled.div`
     flex-direction: column;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
     background-color: white;
+    h1{
+      color: white;
+    }
 `;
 
 const Header = styled.div`
@@ -30,7 +33,9 @@ const Header = styled.div`
         border-radius: 5px;
         cursor: pointer;
         margin-bottom: 50px;
-        float: right;
+        display: block;
+        margin-left: auto;
+        margin-right: 0;
         &:hover {
             background: blueviolet;
             color: white;
@@ -68,7 +73,29 @@ const Content = styled.div`
     }
 `;
 
+const EditButton = styled.div`
+    background: none;
+    border: none;
+    color: blue;
+    cursor: pointer;
+`;
 
+const AddButton = styled.button`
+    margin-top: 50px;
+    width: 30%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 50px;
+    &:hover {
+        background: blueviolet;
+        color: white;
+    }
+`;
 
 const Dashboard = (props) => {
   const [desName, setDesName] = useState('');
@@ -113,6 +140,10 @@ const Dashboard = (props) => {
     setEditDetails(data);
   }
 
+  const closeEdit = () => {
+    setEdit(false)
+  }
+
   return (
     <Container>
       <Header>
@@ -134,7 +165,7 @@ const Dashboard = (props) => {
                 <td >{i.email}</td>
                 <td >{i.name}</td>
                 <td >{i.description}</td>
-                <td><button onClick={() => editWriteup(i)}>Edit</button></td>
+                <td><EditButton onClick={() => editWriteup(i)}>Edit</EditButton></td>
               </tr>
             ))}
           </table>
@@ -152,11 +183,13 @@ const Dashboard = (props) => {
             onChange={(e) => setDescription(e.target.value)}
           />
           <br /><br />
-          <button onClick={addAddWriteup}>Add</button>
+          <AddButton onClick={addAddWriteup}>Add</AddButton>
         </div>
       </Content>
       {edit &&
-        <WriteupForm isOpen={true} editDetails={editDetails} getWriteupList={getWriteupList} />
+        <WriteupForm isOpen={true}
+          closeEdit={closeEdit}
+          editDetails={editDetails} getWriteupList={getWriteupList} />
       }
     </Container>
   )

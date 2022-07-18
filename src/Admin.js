@@ -3,22 +3,56 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 const Root = styled.div`
-h1{
-    color: white;
-}
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    color: white;
-  }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
+    background: white;
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    button{
+        cursor: pointer;
+    }
 `;
+
+const Header = styled.div`
+    display: flex;
+    height: 100px;
+    padding: 0 20px;
+    align-items: center;
+    background: lightpink;
+    h1 {
+        color: white;
+    }
+`;
+
+const LogButton = styled.button`
+    margin-top: 50px;
+    width: 10%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 50px;
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    &:hover {
+        background: blueviolet;
+        color: white;
+    }
+`;
+
+
+
 const AdminPage = (props) => {
     const [getDetails, setDetails] = useState({});
 
@@ -41,6 +75,16 @@ const AdminPage = (props) => {
         }
     }
 
+    const disableUser = async (disable, id) => {
+        const params = new URLSearchParams();
+        params.append('writeupId', id);
+        params.append('disable', disable);
+        const response = await axios.post('http://localhost:3001/disable-write', params);
+        if (response.data.data.acknowledged) {
+            getWriteDetails();
+        }
+    }
+
     const logout = () => {
         props.history.push("/login");
         window.location.reload(false);
@@ -48,8 +92,10 @@ const AdminPage = (props) => {
 
     return (
         <Root>
-            <h1>Admin Page</h1>
-            <button onClick={logout}>LogOut</button>
+            <Header>
+                <h1>Admin Page</h1>
+                <LogButton onClick={logout}>LogOut</LogButton>
+            </Header>
             <table>
                 <tr>
                     <th>Email</th>
@@ -58,13 +104,16 @@ const AdminPage = (props) => {
                     <th>Delete Option</th>
                     <th>Disable</th>
                 </tr>
-                {getDetails?.length > 0 && getDetails.map((i, index) => (
+                {getDetails?.length > 0 && getDetails.map((i) => (
                     <tr>
                         <td >{i.email}</td>
                         <td >{i.name}</td>
                         <td >{i.description}</td>
-                        <td><button onClick={() => deleteUser(i._id)}>Delete</button></td>
-                        <td><button >Disable</button></td>
+                        <td><button
+                            disabled={i?.disable} onClick={() => deleteUser(i._id)}>Delete</button></td>
+                        <td><button
+                            onClick={() => disableUser(!i?.disable, i._id)}
+                        >{i?.disable ? 'Enable' : 'Disable'}</button></td>
                     </tr>
                 ))}
             </table>

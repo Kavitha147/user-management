@@ -41,7 +41,7 @@ const ModalElements = styled.div`
 
 
 const WriteupForm = (props) => {
-  const { isOpen, editDetails, getWriteupList } = props;
+  const { isOpen, editDetails, getWriteupList, closeEdit} = props;
   const [desName, setDesName] = useState(editDetails.name);
   const [description, setDescription] = useState(editDetails.description);
 
@@ -66,7 +66,7 @@ const WriteupForm = (props) => {
         contentLabel="Example Modal"
       >
         <ModalElements>
-          <button>close</button>
+          <button onClick={closeEdit}>close</button>
           <form>
             <h3>Edit Writeup</h3>
             <input type='text' value={desName}
