@@ -80,7 +80,7 @@ const EditButton = styled.div`
     cursor: pointer;
 `;
 
-const AddButton = styled.button`
+const Button = styled.button`
     margin-top: 50px;
     width: 30%;
     background-color: #ffffff;
@@ -98,10 +98,10 @@ const AddButton = styled.button`
 `;
 
 const Dashboard = (props) => {
-  const [desName, setDesName] = useState('');
-  const [description, setDescription] = useState('');
+  const [desName, setDesName] = useState(''); // description title
+  const [description, setDescription] = useState(''); // user writeup description
   const [edit, setEdit] = useState(false);
-  const [writeupList, setList] = useState([]);
+  const [writeupList, setList] = useState([]); 
   const [editDetails, setEditDetails] = useState({});
 
   const logout = () => {
@@ -109,13 +109,15 @@ const Dashboard = (props) => {
     window.location.reload(false);
   }
 
+  // display particular loged in user writeups
   const getWriteupList = async () => {
     const params = new URLSearchParams();
     params.append('email', localStorage.getItem('email'));
     const getList = await axios.post('http://localhost:3001/get-user-writeup', params);
-    setList(getList.data.data);
+      setList(getList.data.data);
   }
 
+  // add new writeups
   const addAddWriteup = async (e) => {
     if (description && desName) {
       const params = new URLSearchParams();
@@ -135,11 +137,13 @@ const Dashboard = (props) => {
     getWriteupList();
   }, []);
 
+  //edit writed writeups for logged in users
   const editWriteup = async (data) => {
     setEdit(true);
     setEditDetails(data);
   }
 
+  // close modal function
   const closeEdit = () => {
     setEdit(false)
   }
@@ -183,7 +187,7 @@ const Dashboard = (props) => {
             onChange={(e) => setDescription(e.target.value)}
           />
           <br /><br />
-          <AddButton onClick={addAddWriteup}>Add</AddButton>
+          <Button onClick={addAddWriteup}>Add</Button>
         </div>
       </Content>
       {edit &&

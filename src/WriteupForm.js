@@ -11,8 +11,8 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    width: '50%',
-    height: '40%',
+    width: '30%',
+    height: '37%',
     borderRadius: '8px'
   },
   overlay: {
@@ -38,13 +38,28 @@ const ModalElements = styled.div`
         font-weight: 300;
     }
 `;
+const Button = styled.button`
+    width: 50%;
+    background-color: #ffffff;
+    color: #080710;
+     padding: 10px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+        background: blueviolet;
+        color: white;
+    }
+`;
 
 
 const WriteupForm = (props) => {
-  const { isOpen, editDetails, getWriteupList, closeEdit} = props;
+  const { isOpen, editDetails, getWriteupList, closeEdit } = props;
   const [desName, setDesName] = useState(editDetails.name);
   const [description, setDescription] = useState(editDetails.description);
 
+  // submit edited form 
   const submitEdit = async () => {
     if (description && desName) {
       const params = new URLSearchParams();
@@ -63,20 +78,21 @@ const WriteupForm = (props) => {
       <Modal
         isOpen={isOpen}
         style={customStyles}
-        contentLabel="Example Modal"
       >
         <ModalElements>
-          <button onClick={closeEdit}>close</button>
+          <Button onClick={closeEdit}>close</Button>
           <form>
             <h3>Edit Writeup</h3>
+            <label>Name</label><br /> <br />
             <input type='text' value={desName}
-              onChange={(e) => setDesName(e.target.value)} />
+              onChange={(e) => setDesName(e.target.value)} /><br /><br />
+            <label>Description</label><br /><br />
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
             <br />
-            <button onClick={submitEdit}>Submit</button>
+            <Button onClick={submitEdit}>Submit</Button>
           </form>
         </ModalElements>
       </Modal>

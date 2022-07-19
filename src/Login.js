@@ -7,6 +7,7 @@ const LogIn = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    // submit login form redirecting to the admin or user dashboard depends on logged in details
     const loginForm = async () => {
         if (email && password) {
             const params = new URLSearchParams();

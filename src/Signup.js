@@ -7,8 +7,9 @@ const Signup = (props) => {
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [conPassword, setConPassword] = useState('');
+    const [conPassword, setConPassword] = useState(''); // confrim password
 
+    // submit regsiter form and redirecting to login page
     const registerForm = async () => {
         if (userName && email && (password === conPassword) && password) {
             const params = new URLSearchParams();

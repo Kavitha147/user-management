@@ -15,6 +15,9 @@ const Root = styled.div`
         text-align: left;
         padding: 8px;
     }
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
     button{
         cursor: pointer;
     }
@@ -54,17 +57,19 @@ const LogButton = styled.button`
 
 
 const AdminPage = (props) => {
-    const [getDetails, setDetails] = useState({});
+    const [getDetails, setDetails] = useState({}); // all user details stored here
 
     useEffect(() => {
         getWriteDetails();
     }, []);
 
+    // displaying all user writeups in admin page
     const getWriteDetails = async () => {
         const adminData = await axios.get('http://localhost:3001/get-writeup');
         setDetails(adminData.data.data);
     }
 
+    // delete particular user 
     const deleteUser = async (id) => {
         const params = new URLSearchParams();
         params.append('writeupId', id);
@@ -75,6 +80,7 @@ const AdminPage = (props) => {
         }
     }
 
+    // disable user in admin page
     const disableUser = async (disable, id) => {
         const params = new URLSearchParams();
         params.append('writeupId', id);
@@ -104,8 +110,8 @@ const AdminPage = (props) => {
                     <th>Delete Option</th>
                     <th>Disable</th>
                 </tr>
-                {getDetails?.length > 0 && getDetails.map((i) => (
-                    <tr>
+                {getDetails?.length > 0 && getDetails.map((i, index) => (
+                    <tr key={index}>
                         <td >{i.email}</td>
                         <td >{i.name}</td>
                         <td >{i.description}</td>
